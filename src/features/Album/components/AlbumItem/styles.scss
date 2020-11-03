@@ -1,0 +1,12 @@
+.album {
+    &__thumbnail {
+       & > img {
+            width: 190px;
+            border-radius: .5rem;
+        }
+    }
+
+    &__name {
+
+    }
+}
