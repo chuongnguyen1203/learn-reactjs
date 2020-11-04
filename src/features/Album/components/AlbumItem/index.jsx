@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import "./styles.scss";
 
 Album.propTypes = {
-  album: PropTypes.array.isRequired,
+  album: PropTypes.object.isRequired,
 };
 
 function Album({ album }) {
