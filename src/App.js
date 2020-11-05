@@ -1,9 +1,12 @@
-import React from "react";
-import { Link, NavLink, Redirect, Route, Switch } from "react-router-dom";
-import NotFound from "./components/NoFound";
-// import "./App.css";
-import AlbumFeature from "./features/Album";
-import TodoFeature from "./features/Todo";
+import React, { useEffect } from 'react';
+import { Link, NavLink, Redirect, Route, Switch } from 'react-router-dom';
+import productApi from './api/productApi';
+import NotFound from './components/NoFound';
+// import './App.css';
+import AlbumFeature from './features/Album';
+import CounterFeature from './features/Counter';
+import TodoFeature from './features/Todo';
+import Header from 'components/Header';
 
 function App() {
   // const name = "Bumm";
@@ -14,30 +17,24 @@ function App() {
   // };
   // const colorList = ["red", "green", "blue"];
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const productList = await productApi.getAll();
+      console.log(productList);
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <div className="App">
-      HomePage
-      <p>
-        <Link to="/todos">Todos </Link>
-      </p>
-      <p>
-        <Link to="/albums">Albums</Link>
-      </p>
-      <p>
-        <NavLink to="/todos" activeClassName="active-menu">
-          Todos{" "}
-        </NavLink>
-      </p>
-      <p>
-        <NavLink to="/albums" activeClassName="active-menu">
-          Albums
-        </NavLink>
-      </p>
+      <Header />
+
       <Switch>
         <Redirect from="/home" to="/" exact />
         <Redirect from="/todo-list/:todosId" to="/todos/:todosId" exact />
 
-        <Route path="/" component={TodoFeature} exact />
+        <Route path="/" component={CounterFeature} exact />
         <Route path="/todos" component={TodoFeature} />
         <Route path="/albums" component={AlbumFeature} />
 
