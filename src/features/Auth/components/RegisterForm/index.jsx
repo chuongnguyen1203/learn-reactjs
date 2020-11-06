@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Avatar, Button, makeStyles, Typography } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
 import InputField from 'components/form-controls/InputField';
+import PasswordField from 'components/form-controls/PasswordField';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -35,7 +36,18 @@ function RegisterForm(props) {
   const classes = useStyles();
 
   const schema = yup.object().shape({
-    title: yup.string().required('Please enter title').min(5, 'Title is too short'),
+    fullName: yup
+      .string()
+      .required('Please enter your full name.')
+      .test('should has at least two words', 'Please enter at least two words.', (values) => {
+        return values.split(' ').length >= 2;
+      }),
+    email: yup.string().required('Please enter your email.').email('Please enter a valid email address.'),
+    password: yup.string().required('Please enter your password.').min(6, 'Please enter at least 6 character.'),
+    retypePassword: yup
+      .string()
+      .required('Please retype your password.')
+      .oneOf([yup.ref('password'), null], 'Passwords must match'),
   });
 
   const form = useForm({
@@ -68,10 +80,10 @@ function RegisterForm(props) {
       <form onSubmit={form.handleSubmit(handleSubmit)}>
         <InputField name="fullName" label="Full Name" form={form} />
         <InputField name="email" label="Email" form={form} />
-        <InputField name="password" label="Password" form={form} />
-        <InputField name="retypePassword" label="Retype Password" form={form} />
+        <PasswordField name="password" label="Password" form={form} />
+        <PasswordField name="retypePassword" label="Retype Password" form={form} />
 
-        <Button variant="contained" color="primary" className={classes.submit} fullWidth>
+        <Button type="submit" variant="contained" color="primary" className={classes.submit} fullWidth>
           Register
         </Button>
       </form>
