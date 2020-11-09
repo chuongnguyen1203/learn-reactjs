@@ -1,12 +1,12 @@
+import Header from 'components/Header';
 import React, { useEffect } from 'react';
-import { Link, NavLink, Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import productApi from './api/productApi';
 import NotFound from './components/NoFound';
 // import './App.css';
 import AlbumFeature from './features/Album';
 import CounterFeature from './features/Counter';
 import TodoFeature from './features/Todo';
-import Header from 'components/Header';
 
 function App() {
   // const name = "Bumm";
