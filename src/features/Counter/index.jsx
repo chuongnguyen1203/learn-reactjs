@@ -17,6 +17,7 @@ function CounterFeature(props) {
     // const action = decrease(); //action creator
     dispatch(decrease());
   };
+
   return (
     <div>
       Counter: {counter}

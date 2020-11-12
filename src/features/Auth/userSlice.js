@@ -3,6 +3,7 @@ import userApi from 'api/userApi';
 import StorageKeys from 'constants/storage-keys';
 
 export const register = createAsyncThunk('user/register', async (payload) => {
+  //Async actions
   // Call API to register
   const data = await userApi.register(payload);
 
@@ -39,6 +40,7 @@ const userSlice = createSlice({
     },
   },
   extraReducers: {
+    //createAsyncThunk
     [register.fulfilled]: (state, action) => {
       state.current = action.payload;
     },
