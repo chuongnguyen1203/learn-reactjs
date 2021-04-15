@@ -1,15 +1,21 @@
-import { Box, Container, Grid, makeStyles, Paper } from '@material-ui/core';
+import { Box, Container, Grid, LinearProgress, makeStyles, Paper } from '@material-ui/core';
 import React from 'react';
-import { useRouteMatch } from 'react-router';
+import { Route, Switch, useRouteMatch } from 'react-router';
 import AddToCartForm from '../components/AddToCartForm';
+import ProductAdditional from '../components/ProductAdditional';
+import ProductDescription from '../components/ProductDescription';
 import ProductInfo from '../components/ProductInfo';
+import ProductMenu from '../components/ProductMenu';
+import ProductReviews from '../components/ProductReviews';
 import ProductThumbnail from '../components/ProductThumbnail';
 import useProductDetail from '../hooks/useProductDetail';
 
 DetailPage.propTypes = {};
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    paddingBottom: theme.spacing(3),
+  },
 
   left: {
     width: '400px',
@@ -29,18 +35,30 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '20px',
     paddingBottom: '10px',
   },
+
+  loading: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+  },
 }));
 
 function DetailPage(props) {
   const classes = useStyles();
   const {
     params: { productId },
+    url,
   } = useRouteMatch();
 
   const { product, loading } = useProductDetail(productId);
 
   if (loading) {
-    return <Box>Loading</Box>;
+    return (
+      <Box className={classes.loading}>
+        <LinearProgress />
+      </Box>
+    );
   }
 
   const handleAddToCartSubmit = (formValues) => {
@@ -61,6 +79,15 @@ function DetailPage(props) {
             </Grid>
           </Grid>
         </Paper>
+        <ProductMenu />
+
+        <Switch>
+          <Route exact path={url}>
+            <ProductDescription product={product} />
+          </Route>
+          <Route path={`${url}/additional`} component={ProductAdditional}></Route>
+          <Route path={`${url}/reviews`} component={ProductReviews}></Route>
+        </Switch>
       </Container>
     </Box>
   );
